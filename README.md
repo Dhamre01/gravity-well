@@ -4,6 +4,8 @@
 
 ▶ **Play:** https://dhamre01.github.io/gravity-well/
 
+📘 **Pilot's manual:** https://dhamre01.github.io/gravity-well/manual.html
+
 No install, no build step, no dependencies. Open `index.html` in a browser (or serve the folder) and fly.
 
 ## How a level plays
@@ -50,6 +52,7 @@ Flies every level with its reference solution and checks it clears within fuel p
 
 ```
 index.html        shell
+manual.html       user guide (pilot's operating handbook)
 css/style.css     layout and theme
 js/physics.js     simulator (browser + Node)
 js/levels.js      level data, grading, hints, solutions

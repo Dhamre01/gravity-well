@@ -1,0 +1,751 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GW-1 Kestrel · Pilot's Operating Handbook — Gravity Well</title>
+<meta name="description" content="The Gravity Well user guide, written as the pilot's operating handbook for the GW-1 Kestrel survey craft.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%230a1120'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%234fd1e8' stroke-width='2' stroke-dasharray='4 3'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23f5b63e'/%3E%3C/svg%3E">
+<style>
+:root{
+  --ink:#dfe8f5; --dim:#9fb2cc; --muted:#7f93ae; --line:#24395a; --line2:#33507a;
+  --sheet:#0c1730; --sheet2:#0a1428; --grid:rgba(79,209,232,.06);
+  --cyan:#4fd1e8; --amber:#f5b63e; --violet:#b794f6; --green:#5bd69a; --red:#f09a88; --hazard:#f5b63e;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace; --sans:Inter,system-ui,sans-serif; --disp:"Space Grotesk",Inter,sans-serif;
+}
+*{box-sizing:border-box}
+main>section{scroll-margin-top:72px}
+html{scroll-behavior:smooth}
+body{margin:0;background:#050912;color:var(--ink);font:15.5px/1.6 var(--sans)}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:
+  radial-gradient(1000px 600px at 80% 0%,rgba(40,90,170,.20),transparent 60%),
+  radial-gradient(800px 600px at 0% 100%,rgba(110,60,160,.14),transparent 60%),#050912}
+a{color:var(--cyan)}
+code,.mono{font-family:var(--mono)}
+code{font-size:.92em;background:rgba(79,209,232,.08);border:1px solid rgba(79,209,232,.18);border-radius:4px;padding:0 5px;color:#bfeef7}
+kbd{font:600 12px var(--mono);border:1px solid var(--line2);border-bottom-width:2px;border-radius:4px;padding:1px 6px;color:var(--ink);background:#0f1d38}
+
+/* ---------- shell ---------- */
+.bar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 24px;background:rgba(5,9,18,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar .id{font:600 12px var(--mono);letter-spacing:.12em;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .id b{color:var(--ink)}
+.bar a.back{font:600 13px var(--sans);text-decoration:none;color:#04111c;background:var(--cyan);border-radius:8px;padding:9px 14px;white-space:nowrap}
+.bar a.back:hover{background:#7fdff0}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 24px 60px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:32px}
+nav.toc{position:sticky;top:72px;align-self:start;max-height:calc(100vh - 92px);overflow:auto;font-size:13.5px;padding-right:6px}
+nav.toc .h{font:600 11px var(--mono);letter-spacing:.16em;color:var(--muted);margin:0 0 10px}
+nav.toc ol{list-style:none;margin:0;padding:0}
+nav.toc li a{display:flex;gap:10px;padding:5px 8px;border-radius:6px;color:var(--dim);text-decoration:none;border-left:2px solid transparent}
+nav.toc li a:hover{background:rgba(79,209,232,.07);color:var(--ink)}
+nav.toc li a.on{border-left-color:var(--cyan);color:var(--ink);background:rgba(79,209,232,.07)}
+nav.toc li a span{font-family:var(--mono);color:var(--muted);min-width:28px}
+
+/* ---------- sheets (manual pages) ---------- */
+.sheet{min-width:0;position:relative;background:linear-gradient(var(--sheet),var(--sheet2));border:1px solid var(--line);border-radius:6px;margin:0 0 28px;padding:40px 44px 56px;overflow:hidden;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px),linear-gradient(var(--sheet),var(--sheet2));background-size:24px 24px,24px 24px,100% 100%}
+.sheet::before,.sheet::after{content:"";position:absolute;width:18px;height:18px;border:2px solid var(--line2)}
+.sheet::before{top:10px;left:10px;border-right:0;border-bottom:0}
+.sheet::after{top:10px;right:10px;border-left:0;border-bottom:0}
+.sheet .foot{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;gap:12px;padding:10px 44px;border-top:1px solid var(--line);font:500 11px var(--mono);letter-spacing:.1em;color:var(--muted);background:rgba(5,9,18,.35)}
+.sec-no{font:600 12px var(--mono);letter-spacing:.18em;color:var(--cyan)}
+h1,h2,h3,h4{font-family:var(--disp);font-weight:600;margin:0}
+h2{font-size:30px;line-height:1.15;margin:6px 0 18px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+h3{font-size:19px;margin:28px 0 8px;display:flex;gap:12px;align-items:baseline}
+h3 .n{font:600 13px var(--mono);color:var(--cyan)}
+h4{font-size:15px;margin:18px 0 6px;color:var(--ink)}
+p{margin:0 0 12px}
+ul,ol{margin:0 0 12px;padding-left:22px}
+li{margin:3px 0}
+.lead{font-size:17px;color:#c9d6e8}
+.dim{color:var(--dim)} .muted{color:var(--muted)}
+
+/* ---------- cover ---------- */
+.cover{padding:0;min-height:640px;display:grid;grid-template-rows:auto 1fr auto}
+.hazard{height:22px;background:repeating-linear-gradient(-45deg,var(--hazard) 0 18px,#131b2b 18px 36px);opacity:.9}
+.cover-body{padding:46px 52px 30px;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:36px;align-items:center}
+.cover .org{font:600 12px var(--mono);letter-spacing:.24em;color:var(--dim)}
+.cover h1{font-size:54px;line-height:1.02;letter-spacing:.01em;margin:18px 0 8px}
+.cover h1 small{display:block;font:600 16px var(--mono);letter-spacing:.2em;color:var(--cyan);margin-bottom:12px}
+.cover .sub{font-size:18px;color:#c9d6e8;max-width:560px}
+.stamp{display:inline-block;margin-top:24px;transform:rotate(-4deg);border:3px solid var(--red);color:var(--red);font:700 15px var(--mono);letter-spacing:.2em;padding:6px 14px;border-radius:4px;opacity:.85}
+.docblock{margin-top:26px;display:grid;grid-template-columns:auto 1fr;gap:4px 18px;font:500 12.5px var(--mono);color:var(--dim);max-width:520px}
+.docblock b{color:var(--ink);font-weight:600}
+.cover-art{border:1px solid var(--line2);border-radius:6px;background:rgba(5,9,18,.5);padding:14px}
+.cover-art svg{display:block;width:100%;height:auto}
+.cover-foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 52px;border-top:1px solid var(--line);font:500 11px var(--mono);letter-spacing:.12em;color:var(--muted)}
+
+/* ---------- callouts (aviation-style) ---------- */
+.ca{margin:16px 0;border:1px solid;border-radius:6px;overflow:hidden}
+.ca .t{font:700 12px var(--mono);letter-spacing:.2em;padding:6px 14px;text-align:center}
+.ca .b{padding:12px 16px;font-size:14.5px}
+.ca.warning{border-color:#8a3a2e}.ca.warning .t{background:repeating-linear-gradient(-45deg,#c24a36 0 10px,#a63c2b 10px 20px);color:#fff}.ca.warning .b{background:rgba(70,24,18,.55);color:#f8d5cc}
+.ca.caution{border-color:#7a5a1e}.ca.caution .t{background:var(--amber);color:#1a1205}.ca.caution .b{background:rgba(48,36,12,.6);color:#f3e3c2}
+.ca.note{border-color:#2b5a78}.ca.note .t{background:#18405c;color:#cdeef7}.ca.note .b{background:rgba(16,40,64,.55);color:#d4eef5}
+.ca .b p:last-child{margin:0}
+
+/* ---------- tables, panels ---------- */
+table{width:100%;border-collapse:collapse;margin:10px 0 16px;font-size:14px}
+th{text-align:left;font:600 11px var(--mono);letter-spacing:.12em;color:var(--muted);text-transform:uppercase;padding:8px 10px;border-bottom:1px solid var(--line2);background:rgba(79,209,232,.04)}
+td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+td.mono,td code{white-space:nowrap}
+.figure{margin:18px 0 20px;border:1px solid var(--line2);border-radius:6px;background:rgba(5,9,18,.45);padding:16px}
+.figure svg{display:block;width:100%;height:auto}
+.figure .cap{font:500 12px var(--mono);letter-spacing:.06em;color:var(--muted);margin-top:10px;display:flex;gap:10px}
+.figure .cap b{color:var(--cyan);font-weight:600}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.card{border:1px solid var(--line);border-radius:6px;background:rgba(5,9,18,.35);padding:14px 16px}
+.card .k{font:600 11px var(--mono);letter-spacing:.14em;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
+.steps{counter-reset:s;list-style:none;padding:0}
+.steps li{counter-increment:s;position:relative;padding:4px 0 8px 44px;margin:0}
+.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:3px;font:700 13px var(--mono);color:#04111c;background:var(--cyan);border-radius:4px;padding:2px 6px}
+.checklist{list-style:none;padding:0;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.checklist li{display:flex;justify-content:space-between;gap:16px;padding:8px 14px;margin:0;border-bottom:1px dashed var(--line);font:500 13.5px var(--mono)}
+.checklist li:last-child{border-bottom:0}
+.checklist li span:last-child{color:var(--green);white-space:nowrap}
+.checklist li span:first-child::before{content:"□ ";color:var(--muted)}
+.formula{display:grid;grid-template-columns:minmax(220px,auto) 1fr auto;gap:2px 18px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
+.formula .f{font:600 15px var(--mono);color:var(--cyan)}
+.formula .lv{font:500 11px var(--mono);color:var(--muted);white-space:nowrap}
+.mission{border:1px solid var(--line);border-radius:6px;margin:14px 0;overflow:hidden}
+.mission .hd{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:10px 16px;background:rgba(79,209,232,.05);border-bottom:1px solid var(--line)}
+.mission .hd h4{margin:0;font-size:17px}
+.mission .hd span{font:600 11.5px var(--mono);letter-spacing:.12em;color:var(--muted)}
+.mission .bd{padding:12px 16px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px 24px;font-size:14px}
+.mission .bd div b{display:block;font:600 11px var(--mono);letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:2px}
+.mission .bd .full{grid-column:1/-1}
+.tag{display:inline-block;font:600 10.5px var(--mono);letter-spacing:.1em;padding:1px 7px;border-radius:3px;border:1px solid var(--line2);color:var(--dim);margin-left:6px;vertical-align:2px}
+.c-cyan{color:var(--cyan)} .c-amber{color:var(--amber)} .c-violet{color:var(--violet)} .c-green{color:var(--green)} .c-red{color:var(--red)}
+
+@media (max-width:980px){
+  .wrap{grid-template-columns:minmax(0,1fr)}
+  nav.toc{position:static;max-height:none;border:1px solid var(--line);border-radius:6px;padding:14px;background:rgba(10,20,40,.6)}
+  .cover-body{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .wrap{padding:16px 12px 40px}
+  .sheet{padding:28px 18px 56px}
+  .sheet .foot{padding:10px 18px;font-size:10px}
+  .cover-body{padding:28px 20px}
+  .cover-foot{padding:12px 20px}
+  .cover h1{font-size:38px}
+  h2{font-size:24px}
+  .two,.mission .bd{grid-template-columns:1fr}
+  .formula{grid-template-columns:1fr}
+  .bar .id{font-size:10.5px}
+  table{font-size:13px;display:block;overflow-x:auto}
+  td.mono,td code{white-space:normal}
+  .mission .hd{flex-direction:column;gap:2px}
+  .bar{padding:10px 12px}
+}
+@media print{
+  body{background:#fff;color:#111}
+  body::before,.bar,nav.toc{display:none}
+  .wrap{display:block;padding:0;max-width:none}
+  .sheet{break-after:page;background:#fff;border:1px solid #999;color:#111}
+  .sheet .foot{background:#f4f4f4;color:#555}
+  .ca .b,.card,.mission,.figure{background:#fff!important;color:#111!important}
+  a{color:#0b5a73}
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="id"><b>GW-POH-001</b> · GW-1 KESTREL · PILOT'S OPERATING HANDBOOK · REV C</div>
+  <a class="back" href="index.html">‹ Return to cockpit</a>
+</div>
+
+<div class="wrap">
+<nav class="toc" aria-label="Contents">
+  <div class="h">CONTENTS</div>
+  <ol>
+    <li><a href="#cover"><span>00</span>Cover</a></li>
+    <li><a href="#sec-1"><span>1.0</span>Introduction</a></li>
+    <li><a href="#sec-2"><span>2.0</span>Mission cycle</a></li>
+    <li><a href="#sec-3"><span>3.0</span>Navigation conventions</a></li>
+    <li><a href="#sec-4"><span>4.0</span>Flight computer</a></li>
+    <li><a href="#sec-5"><span>5.0</span>Calculator</a></li>
+    <li><a href="#sec-6"><span>6.0</span>Flight &amp; telemetry</a></li>
+    <li><a href="#sec-7"><span>7.0</span>Checkpoints &amp; fuel</a></li>
+    <li><a href="#sec-8"><span>8.0</span>Debrief &amp; troubleshooting</a></li>
+    <li><a href="#sec-9"><span>9.0</span>Ratings &amp; rank</a></li>
+    <li><a href="#sec-10"><span>10</span>Mission notes</a></li>
+    <li><a href="#sec-11"><span>11</span>Physics reference</a></li>
+    <li><a href="#sec-12"><span>12</span>Glossary</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- ================= COVER ================= -->
+<section class="sheet cover" id="cover">
+  <div class="hazard"></div>
+  <div class="cover-body">
+    <div>
+      <div class="org">FLIGHT PHYSICS ACADEMY · BELT ALPHA SURVEY WING</div>
+      <h1><small>GW-1 KESTREL</small>Pilot's Operating Handbook</h1>
+      <p class="sub">The user guide for <b>Gravity Well</b>. It covers flying the asteroid belt using nothing but physics and a flight computer.</p>
+      <div class="stamp">FLIGHT CREW ONLY</div>
+      <div class="docblock">
+        <span>Document</span><b>GW-POH-001</b>
+        <span>Revision</span><b>C · issued 2026-11-14</b>
+        <span>Applies to</span><b>Gravity Well, Belt Alpha (levels 1–10)</b>
+        <span>Keep with</span><b>the craft at all times</b>
+      </div>
+    </div>
+    <div class="cover-art" aria-hidden="true">
+      <svg viewBox="0 0 300 300">
+        <defs>
+          <linearGradient id="h1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F5F8FC"/><stop offset=".42" stop-color="#B8C2D0"/><stop offset="1" stop-color="#3F4A5C"/></linearGradient>
+          <linearGradient id="w1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9AA6B8"/><stop offset="1" stop-color="#394357"/></linearGradient>
+          <linearGradient id="w2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5A6578"/><stop offset="1" stop-color="#262E3D"/></linearGradient>
+          <radialGradient id="gl" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#C8F6FF"/><stop offset=".45" stop-color="#2C93B4"/><stop offset="1" stop-color="#08263A"/></radialGradient>
+          <radialGradient id="en" cx="1" cy=".5" r="1"><stop offset="0" stop-color="#E8FBFF"/><stop offset=".3" stop-color="#4FD1E8" stop-opacity=".8"/><stop offset="1" stop-color="#4FD1E8" stop-opacity="0"/></radialGradient>
+        </defs>
+        <g stroke="#1f3355" stroke-width="1"><path d="M0 50H300M0 100H300M0 150H300M0 200H300M0 250H300M50 0V300M100 0V300M150 0V300M200 0V300M250 0V300"/></g>
+        <circle cx="150" cy="150" r="118" fill="none" stroke="#33507a" stroke-dasharray="4 6"/>
+        <circle cx="150" cy="150" r="80" fill="none" stroke="#24395a"/>
+        <g transform="translate(152 150) scale(3.3)">
+          <ellipse cx="-30" cy="0" rx="10" ry="4.5" fill="url(#en)"/>
+          <path d="M-12,-5 L-23,-19 L-15,-20.5 L3,-6 Z" fill="url(#w1)" stroke="#161D2A" stroke-width=".4"/>
+          <path d="M-12,5 L-23,19 L-15,20.5 L3,6 Z" fill="url(#w2)" stroke="#161D2A" stroke-width=".4"/>
+          <rect x="-26" y="-4" width="5" height="8" rx="1.2" fill="#252C39"/>
+          <path d="M27,0 C19,-6.8 3,-8.2 -14,-7.2 L-22,-5.2 L-22,5.2 L-14,7.2 C3,8.2 19,6.8 27,0 Z" fill="url(#h1)" stroke="#161D2A" stroke-width=".4"/>
+          <path d="M20,-2.6 C12,-4.6 -2,-5.4 -16,-5" stroke="#fff" stroke-opacity=".5" stroke-width=".5" fill="none"/>
+          <ellipse cx="11" cy="-1.3" rx="7.5" ry="3.2" fill="url(#gl)"/>
+          <circle cx="-21.5" cy="-20" r="1" fill="#FF6B6B"/><circle cx="-21.5" cy="20" r="1" fill="#6BFFAA"/>
+        </g>
+        <g font-family="JetBrains Mono, monospace" font-size="9" fill="#9fb2cc">
+          <line x1="64" y1="72" x2="64" y2="62" stroke="#4fd1e8"/><line x1="241" y1="72" x2="241" y2="62" stroke="#4fd1e8"/><line x1="64" y1="67" x2="241" y2="67" stroke="#4fd1e8"/>
+          <text x="152" y="60" text-anchor="middle" fill="#4fd1e8">LENGTH 17.2 m</text>
+          <text x="20" y="286">MASS 1,200 kg (dry, loaded)</text>
+          <text x="20" y="22">GW-1 · TOP VIEW</text>
+          <text x="280" y="22" text-anchor="end">SHEET 0</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <div class="cover-foot"><span>GW-POH-001 · REV C</span><span>THIS HANDBOOK CONTAINS NO MISSION ANSWERS</span><span>COVER</span></div>
+</section>
+
+<!-- ================= 1 INTRODUCTION ================= -->
+<section class="sheet" id="sec-1">
+  <div class="sec-no">SECTION 1.0</div>
+  <h2>Introduction</h2>
+  <p class="lead">You are a cadet pilot of the GW-1 Kestrel, a light survey craft working the asteroid fields of Belt Alpha. The Kestrel has <b>no autopilot</b>. Before each flight you work out the forces acting on the ship, then enter the results into the flight computer. The ship flies <b>exactly</b> what you enter.</p>
+  <p>Every mission is a physics problem with a visible consequence. If your numbers are right, the ship slips through the corridor and crosses the gate. If they are wrong, you see exactly how wrong. Gravity drags you into the rocks, you hit the dock too fast, or you reach a timed gate after it has closed.</p>
+
+  <h3><span class="n">1.1</span>What you need</h3>
+  <ul>
+    <li>A web browser on a computer, tablet or phone. Nothing to install.</li>
+    <li>High-school physics: Newton's laws, kinematics, vectors, momentum, gravity. Each mission introduces one new idea, and the formulas you need are shown in the cockpit (§4.3).</li>
+    <li>Optional: paper and a pencil. Drawing a force diagram before you calculate is the habit of every good pilot.</li>
+  </ul>
+
+  <h3><span class="n">1.2</span>How to use this handbook</h3>
+  <p>Sections 2–9 explain the cockpit and the rules of flight. Section 10 has a briefing note for every mission. Section 11 collects the physics. Nothing in this handbook gives away a mission's answer; the in-game worked solution does that, at a cost (§9).</p>
+
+  <div class="ca note"><div class="t">NOTE</div><div class="b"><p>Open this handbook from the <b>Manual</b> link in the game's top bar. It opens in its own tab, so your mission stays exactly where you left it.</p></div></div>
+
+  <h3><span class="n">1.3</span>Quick start</h3>
+  <ol class="steps">
+    <li>On the <b>Sector map</b>, press <b>Start mission</b> on the highlighted level.</li>
+    <li>Read the <b>Briefing</b>: the situation, the known values, and which values you must enter.</li>
+    <li>Press <b>Open flight computer</b>. Work out each value, using the calculator if you like, and type it in.</li>
+    <li>Press <b>LAUNCH</b> and watch the flight.</li>
+    <li>Clear the gate to earn stars and unlock the next mission. If you crash, read the debrief, fix your numbers and retry.</li>
+  </ol>
+  <div class="foot"><span>GW-POH-001 · REV C</span><span>INTRODUCTION</span><span>PAGE 1-1</span></div>
+</section>
+
+<!-- ================= 2 MISSION CYCLE ================= -->
+<section class="sheet" id="sec-2">
+  <div class="sec-no">SECTION 2.0</div>
+  <h2>The mission cycle</h2>
+  <p>Every mission follows the same loop. Longer missions repeat the middle of it at each checkpoint.</p>
+  <div class="figure">
+    <svg viewBox="0 0 900 250" role="img" aria-label="Flow: Sector map, Briefing, Flight computer, Flight; from Flight either Checkpoint back to Flight computer, Gate cleared to Level complete, or Crash to Debrief then back to Flight computer">
+      <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#4fd1e8"/></marker>
+      <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#f09a88"/></marker>
+      <marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5bd69a"/></marker></defs>
+      <g font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#dfe8f5" text-anchor="middle">
+        <rect x="10" y="95" width="130" height="56" rx="6" fill="#10233a" stroke="#33507a"/><text x="75" y="120">Sector map</text><text x="75" y="139" font-size="11" font-weight="400" fill="#9fb2cc">choose a mission</text>
+        <rect x="180" y="95" width="130" height="56" rx="6" fill="#10233a" stroke="#33507a"/><text x="245" y="120">Briefing</text><text x="245" y="139" font-size="11" font-weight="400" fill="#9fb2cc">read the situation</text>
+        <rect x="350" y="95" width="150" height="56" rx="6" fill="#10233a" stroke="#4fd1e8" stroke-width="2"/><text x="425" y="120">Flight computer</text><text x="425" y="139" font-size="11" font-weight="400" fill="#9fb2cc">calculate &amp; enter</text>
+        <rect x="540" y="95" width="130" height="56" rx="6" fill="#10233a" stroke="#33507a"/><text x="605" y="120">Flight</text><text x="605" y="139" font-size="11" font-weight="400" fill="#9fb2cc">watch it fly</text>
+        <rect x="740" y="20" width="150" height="56" rx="6" fill="#0e2a24" stroke="#2d6b57"/><text x="815" y="45">Level complete</text><text x="815" y="64" font-size="11" font-weight="400" fill="#bdebd7">stars, next mission</text>
+        <rect x="740" y="170" width="150" height="56" rx="6" fill="#3c1612" stroke="#7a3a2e"/><text x="815" y="195">Debrief</text><text x="815" y="214" font-size="11" font-weight="400" fill="#f8cfc4">hint, solution, retry</text>
+      </g>
+      <g stroke="#4fd1e8" stroke-width="2" fill="none">
+        <path d="M140 123H176" marker-end="url(#ar)"/><path d="M310 123H346" marker-end="url(#ar)"/><path d="M500 123H536" marker-end="url(#ar)"/>
+        <path d="M605 95 C605 40 440 40 430 92" stroke-dasharray="6 5" marker-end="url(#ar)"/>
+      </g>
+      <path d="M670 112 C700 80 710 55 736 50" stroke="#5bd69a" stroke-width="2" fill="none" marker-end="url(#arg)"/>
+      <path d="M670 134 C700 165 710 190 736 196" stroke="#f09a88" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+      <path d="M740 212 C600 250 440 240 425 155" stroke="#f09a88" stroke-width="2" fill="none" stroke-dasharray="6 5" marker-end="url(#arr)"/>
+      <g font-family="JetBrains Mono, monospace" font-size="11.5">
+        <text x="515" y="34" fill="#4fd1e8" text-anchor="middle">checkpoint: plan next leg</text>
+        <text x="690" y="100" fill="#5bd69a">gate cleared</text>
+        <text x="690" y="152" fill="#f09a88">crash</text>
+        <text x="560" y="244" fill="#f09a88" text-anchor="middle">retry</text>
+      </g>
+    </svg>
+    <div class="cap"><b>FIG 2-1</b> The mission cycle. Dashed paths repeat.</div>
+  </div>
+
+  <h3><span class="n">2.1</span>Sector map</h3>
+  <p>All ten Belt Alpha missions are shown as cards with the idea each one teaches. The highlighted card is your next mission. Cleared missions show your best star rating and can be replayed any time. Locked missions open as you clear the ones before them. The top bar shows your pilot rank and total stars (§9).</p>
+  <div class="ca caution"><div class="t">CAUTION</div><div class="b"><p>Progress is saved in <b>this browser on this device</b>. Clearing browser data, or playing on another device, starts you fresh. <b>Reset progress</b> on the sector map wipes all stars after asking you to confirm.</p></div></div>
+
+  <h3><span class="n">2.2</span>Briefing</h3>
+  <p>The briefing shows a top-down view of the course, the story of the mission, a table of <b>Known values</b>, the list of values <b>You will enter</b>, and the mission's stated <b>assumptions</b>. Read the assumptions carefully: they say exactly which simplifications the simulator makes for this mission.</p>
+  <div class="foot"><span>GW-POH-001 · REV C</span><span>MISSION CYCLE</span><span>PAGE 2-1</span></div>
+</section>
+
+<!-- ================= 3 CONVENTIONS ================= -->
+<section class="sheet" id="sec-3">
+  <div class="sec-no">SECTION 3.0</div>
+  <h2>Navigation conventions</h2>
+  <p>Every value you enter follows the conventions below. Most first-flight crashes come from a heading pointed the wrong way, so learn Fig 3-1.</p>
+
+  <div class="two">
+    <div class="figure" style="margin-top:0">
+      <svg viewBox="0 0 320 300" role="img" aria-label="Heading compass: 0 degrees points right, 90 up, 180 left, 270 down; angles increase counter-clockwise">
+        <defs><marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#4fd1e8"/></marker>
+        <marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b794f6"/></marker></defs>
+        <circle cx="160" cy="150" r="100" fill="none" stroke="#33507a"/>
+        <circle cx="160" cy="150" r="3" fill="#dfe8f5"/>
+        <g stroke="#4fd1e8" stroke-width="2"><path d="M160 150H255" marker-end="url(#a2)"/><path d="M160 150V55" marker-end="url(#a2)"/><path d="M160 150H65" marker-end="url(#a2)"/><path d="M160 150V245" marker-end="url(#a2)"/></g>
+        <path d="M160 150 L231 79" stroke="#b794f6" stroke-width="2" marker-end="url(#a3)"/>
+        <path d="M205 150 A45 45 0 0 0 192 118" fill="none" stroke="#b794f6" stroke-dasharray="3 3"/>
+        <g font-family="JetBrains Mono, monospace" font-size="13" fill="#dfe8f5">
+          <text x="268" y="154">0°</text><text x="148" y="42">90°</text><text x="22" y="154">180°</text><text x="143" y="270">270°</text>
+          <text x="214" y="132" fill="#b794f6" font-size="12">θ = 45°</text>
+          <text x="10" y="294" fill="#9fb2cc" font-size="11">angles grow counter-clockwise</text>
+        </g>
+      </svg>
+      <div class="cap"><b>FIG 3-1</b> Heading compass</div>
+    </div>
+    <div>
+      <table>
+        <tr><th>Quantity</th><th>Convention</th></tr>
+        <tr><td>Heading <code>θ</code></td><td>Degrees from the <b>+x axis</b> (screen right). Counter-clockwise is positive. <code>90°</code> is up the screen, <code>270°</code> is down.</td></tr>
+        <tr><td>Components</td><td><code>Fx = F·cos θ</code> (right is positive), <code>Fy = F·sin θ</code> (up is positive).</td></tr>
+        <tr><td>Bearings</td><td>“Asteroid at 1,000 m, 30°” means it lies in the 30° direction from the ship, so its pull points at 30°.</td></tr>
+        <tr><td>Time</td><td><code>T+</code> is seconds since launch, or since the last checkpoint where the briefing says so.</td></tr>
+        <tr><td>Units</td><td>SI throughout: m, s, kg, N, m/s, m/s², N·s.</td></tr>
+        <tr><td>Scientific notation</td><td><code>4.5 × 10¹⁵</code> is typed <code>4.5e15</code>. <code>6.67 × 10⁻¹¹</code> is typed <code>6.67e-11</code>.</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <h3><span class="n">3.1</span>Corridors and gates</h3>
+  <div class="figure">
+    <svg viewBox="0 0 860 210" role="img" aria-label="Corridor diagram: ship enters at left on the centreline; corridor walls are a half-width above and below; gate at the far end">
+      <rect x="60" y="60" width="700" height="100" fill="#4fd1e8" fill-opacity=".06"/>
+      <path d="M60 60H760M60 160H760" stroke="#4fd1e8" stroke-dasharray="10 8"/>
+      <path d="M60 110H760" stroke="#5bd69a" stroke-dasharray="6 6"/>
+      <g fill="#2a3650"><circle cx="130" cy="40" r="14"/><circle cx="270" cy="44" r="10"/><circle cx="420" cy="36" r="18"/><circle cx="600" cy="42" r="12"/><circle cx="200" cy="180" r="12"/><circle cx="360" cy="184" r="16"/><circle cx="540" cy="178" r="11"/><circle cx="700" cy="182" r="14"/></g>
+      <rect x="757" y="58" width="6" height="104" fill="#5bd69a" opacity=".55"/><circle cx="760" cy="52" r="5" fill="#d9ffe9"/><circle cx="760" cy="168" r="5" fill="#d9ffe9"/>
+      <path d="M70 110 l-16 -9 4 9 -4 9z" fill="#dfe8f5"/>
+      <path d="M800 60V110" stroke="#f5b63e"/><path d="M795 60H805M795 110H805" stroke="#f5b63e"/>
+      <g font-family="JetBrains Mono, monospace" font-size="12">
+        <text x="812" y="90" fill="#f5b63e">half-</text><text x="812" y="104" fill="#f5b63e">width</text>
+        <text x="410" y="128" fill="#5bd69a" text-anchor="middle">centreline (the needed path)</text>
+        <text x="760" y="22" fill="#5bd69a" text-anchor="middle">GATE</text>
+        <text x="60" y="206" fill="#9fb2cc">rocks line both walls: leave the corridor and the hull is breached</text>
+      </g>
+    </svg>
+    <div class="cap"><b>FIG 3-2</b> Corridor geometry</div>
+  </div>
+  <p>A <b>corridor</b> is a straight lane through the field with a stated length and width. The ship must stay within half the width of the centreline the whole way. A <b>gate</b> marks the end of the corridor. Some gates are <b>timed</b> (they only open between two times) or <b>speed-limited</b>. A <b>dock</b> is a gate you must arrive at almost stopped. On the orbit mission, the corridor is replaced by a ring-shaped <b>safe band</b>.</p>
+  <div class="foot"><span>GW-POH-001 · REV C</span><span>CONVENTIONS</span><span>PAGE 3-1</span></div>
+</section>
+
+<!-- ================= 4 FLIGHT COMPUTER ================= -->
+<section class="sheet" id="sec-4">
+  <div class="sec-no">SECTION 4.0</div>
+  <h2>Flight computer</h2>
+  <p>The flight computer screen is where every mission is won or lost. Fig 4-1 shows its layout.</p>
+
+  <div class="figure">
+    <svg viewBox="0 0 900 430" role="img" aria-label="Flight computer layout: viewport top-left, formula reference and calculator below it, flight computer input panel on the right with launch button">
+      <g font-family="Inter, sans-serif" font-size="13" fill="#dfe8f5">
+        <rect x="10" y="10" width="580" height="220" rx="6" fill="#070d1c" stroke="#33507a"/>
+        <path d="M60 80H540M60 150H540" stroke="#4fd1e8" stroke-dasharray="7 6" opacity=".7"/>
+        <path d="M110 115l-16 -8 4 8 -4 8z" fill="#dfe8f5"/>
+        <path d="M114 115H170" stroke="#4fd1e8" stroke-width="2.5"/><path d="M104 120V180" stroke="#f5b63e" stroke-width="2.5" stroke-dasharray="5 4"/><path d="M104 110V55" stroke="#b794f6" stroke-width="2.5"/>
+        <circle cx="300" cy="196" r="26" fill="#3a4763"/>
+        <rect x="10" y="246" width="285" height="174" rx="6" fill="#0c1730" stroke="#33507a"/>
+        <rect x="305" y="246" width="285" height="174" rx="6" fill="#0c1730" stroke="#33507a"/>
+        <g fill="#16233a"><rect x="320" y="310" width="38" height="20" rx="3"/><rect x="364" y="310" width="38" height="20" rx="3"/><rect x="408" y="310" width="38" height="20" rx="3"/><rect x="452" y="310" width="38" height="20" rx="3"/><rect x="496" y="310" width="38" height="20" rx="3"/><rect x="540" y="310" width="38" height="20" rx="3"/>
+        <rect x="320" y="336" width="38" height="20" rx="3"/><rect x="364" y="336" width="38" height="20" rx="3"/><rect x="408" y="336" width="38" height="20" rx="3"/><rect x="452" y="336" width="38" height="20" rx="3"/><rect x="496" y="336" width="38" height="20" rx="3"/><rect x="540" y="336" width="38" height="20" rx="3"/></g>
+        <rect x="320" y="364" width="125" height="22" rx="3" fill="#4fd1e8"/><rect x="452" y="364" width="125" height="22" rx="3" fill="#28463a"/>
+        <rect x="320" y="270" width="258" height="32" rx="4" fill="#060b16" stroke="#24395a"/>
+        <rect x="25" y="270" width="255" height="40" rx="4" fill="#10283f" stroke="#2b5a78"/>
+        <g fill="#24395a"><rect x="25" y="320" width="120" height="8"/><rect x="160" y="320" width="120" height="8"/><rect x="25" y="338" width="120" height="8"/><rect x="160" y="338" width="120" height="8"/><rect x="25" y="356" width="255" height="54" rx="4" fill="#0a1428" stroke="#24395a"/></g>
+        <rect x="605" y="10" width="285" height="410" rx="6" fill="#0c1730" stroke="#33507a"/>
+        <g fill="#060b16" stroke="#33507a"><rect x="622" y="70" width="210" height="34" rx="4" stroke="#4fd1e8"/><rect x="622" y="138" width="210" height="34" rx="4"/><rect x="622" y="206" width="210" height="34" rx="4"/><rect x="622" y="274" width="210" height="34" rx="4"/></g>
+        <rect x="622" y="362" width="251" height="40" rx="5" fill="#4fd1e8"/><text x="747" y="388" text-anchor="middle" fill="#04111c" font-weight="700" letter-spacing="2">LAUNCH</text>
+      </g>
+      <g font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="#04111c">
+        <g><circle cx="30" cy="30" r="12" fill="#f5b63e"/><text x="30" y="35" text-anchor="middle">A</text></g>
+        <g><circle cx="560" cy="40" r="12" fill="#f5b63e"/><text x="560" y="45" text-anchor="middle">B</text></g>
+        <g><circle cx="30" cy="262" r="12" fill="#f5b63e"/><text x="30" y="267" text-anchor="middle">C</text></g>
+        <g><circle cx="30" cy="372" r="12" fill="#f5b63e"/><text x="30" y="377" text-anchor="middle">D</text></g>
+        <g><circle cx="320" cy="262" r="12" fill="#f5b63e"/><text x="320" y="267" text-anchor="middle">E</text></g>
+        <g><circle cx="515" cy="375" r="12" fill="#f5b63e"/><text x="515" y="380" text-anchor="middle">F</text></g>
+        <g><circle cx="622" cy="32" r="12" fill="#f5b63e"/><text x="622" y="37" text-anchor="middle">G</text></g>
+        <g><circle cx="855" cy="87" r="12" fill="#f5b63e"/><text x="855" y="92" text-anchor="middle">H</text></g>
+        <g><circle cx="622" cy="345" r="12" fill="#f5b63e"/><text x="622" y="350" text-anchor="middle">J</text></g>
+      </g>
+    </svg>
+    <div class="cap"><b>FIG 4-1</b> Flight computer screen. Callouts are explained in the table below.</div>
+  </div>
+
+  <table>
+    <tr><th>#</th><th>Item</th><th>Function</th></tr>
+    <tr><td class="mono c-amber">A</td><td>Viewport</td><td>Live plan of the course. <span class="c-cyan">Cyan</span> arrow: velocity. <span class="c-amber">Amber dashed</span> arrow: an outside pull, shown as a direction only (its size is yours to find). <span class="c-violet">Violet</span> arrow: the thrust you have entered, which updates as you type.</td></tr>
+    <tr><td class="mono c-amber">B</td><td>Zoom</td><td><b>+</b> / <b>−</b> zoom the viewport in and out.</td></tr>
+    <tr><td class="mono c-amber">C</td><td>Formula reference</td><td>The formula introduced in this mission is highlighted at the top. Every formula unlocked in earlier missions is listed below it (§11).</td></tr>
+    <tr><td class="mono c-amber">D</td><td>Known values</td><td>The mission data. <b>Click a value</b> to drop it into the calculator.</td></tr>
+    <tr><td class="mono c-amber">E</td><td>Calculator display</td><td>Type an expression. The result previews as you type; <kbd>Enter</kbd> or <b>=</b> stores it as <code>ANS</code> (§5).</td></tr>
+    <tr><td class="mono c-amber">F</td><td>Use → field</td><td>Copies the calculator's last result into the input field you last clicked.</td></tr>
+    <tr><td class="mono c-amber">G</td><td>Input fields</td><td>The values this stage asks for, in solving order. <kbd>Enter</kbd> moves to the next field; on the last field it launches.</td></tr>
+    <tr><td class="mono c-amber">H</td><td>Units</td><td>The unit each field expects. Enter numbers only; don't type the unit.</td></tr>
+    <tr><td class="mono c-amber">J</td><td>LAUNCH / RESUME</td><td>Runs the flight with your values. Reads <b>RESUME FLIGHT</b> at a checkpoint (§7), or <b>FLY</b> on a stage with nothing to enter.</td></tr>
+  </table>
+
+  <h3><span class="n">4.1</span>Check fields and drive fields</h3>
+  <p>The fields come in two kinds:</p>
+  <div class="two">
+    <div class="card"><div class="k">Check fields</div><p style="margin:0">Intermediate results, such as the size of a gravitational pull or a required acceleration. The ship does not use them, but the debrief grades them so it can find where your working went wrong. Fill them in honestly; they are how the hints work.</p></div>
+    <div class="card"><div class="k">Drive fields <span class="tag c-violet">DRIVES THE SHIP</span></div><p style="margin:0">Marked <span class="c-violet">“drives the ship”</span>. These become the actual burn: thrust, heading, duration, timing. The simulator flies these numbers and nothing else.</p></div>
+  </div>
+  <div class="ca warning"><div class="t">WARNING</div><div class="b"><p>There is <b>no autopilot</b> and no automatic correction. A right answer in a check field does not rescue a wrong drive field. If a drive field asks for thrust in newtons and you type an acceleration, the engine fires at that tiny value.</p></div></div>
+
+  <h3><span class="n">4.2</span>Engine limits</h3>
+  <p>Each mission states the engine's maximum thrust. A larger request is <b>clamped</b> to the maximum, so the ship fires at full power instead of the value you typed. If you find yourself entering more than the maximum, re-check your arithmetic; no mission needs it.</p>
+
+  <h3><span class="n">4.3</span>Pre-launch checklist</h3>
+  <ul class="checklist">
+    <li><span>Force diagram sketched (every pull, every push)</span><span>CHECK</span></li>
+    <li><span>Units match the field (N, not m/s²; s, not min)</span><span>CHECK</span></li>
+    <li><span>Powers of ten typed with e-notation</span><span>CHECK</span></li>
+    <li><span>Thrust points AWAY from the pull it cancels</span><span>CHECK</span></li>
+    <li><span>Burn lasts as long as the force it cancels</span><span>CHECK</span></li>
+    <li><span>Thrust within the engine maximum</span><span>CHECK</span></li>
+    <li><span>Mission assumptions re-read</span><span>CHECK</span></li>
+  </ul>
+  <div class="foot"><span>GW-POH-001 · REV C</span><span>FLIGHT COMPUTER</span><span>PAGE 4-1</span></div>
+</section>
+
+<!-- ================= 5 CALCULATOR ================= -->
+<section class="sheet" id="sec-5">
+  <div class="sec-no">SECTION 5.0</div>
+  <h2>Calculator</h2>
+  <p>The flight computer has a scientific calculator. Type on your keyboard or tap the keys. The result previews as you type. Press <kbd>Enter</kbd> or <b>=</b> to keep it as <code>ANS</code>, then use <b>Use → field</b> to send it to an input.</p>
+
+  <div class="ca caution"><div class="t">CAUTION</div><div class="b"><p>Trigonometry works in <b>degrees</b>, not radians. <code>cos(60)</code> is <code>0.5</code>.</p></div></div>
+
+  <h3><span class="n">5.1</span>What you can type</h3>
+  <table>
+    <tr><th>Input</th><th>Meaning</th><th>Example</th></tr>
+    <tr><td><code>+ − × ÷</code> or <code>+ - * /</code></td><td>Arithmetic</td><td><code>3000/25</code></td></tr>
+    <tr><td><code>^</code> or <b>x²</b></td><td>Power</td><td><code>1500^2</code></td></tr>
+    <tr><td><code>e</code> / <b>EXP</b></td><td>Times ten to the power</td><td><code>4.5e15</code>, <code>6.67e-11</code></td></tr>
+    <tr><td><code>( )</code></td><td>Grouping. A number next to a bracket multiplies.</td><td><code>2(3+4)</code> = 14</td></tr>
+    <tr><td><code>sqrt( )</code> or <b>√</b></td><td>Square root</td><td><code>sqrt(2*200/0.13)</code></td></tr>
+    <tr><td><code>sin cos tan</code></td><td>Trig, degrees in</td><td><code>600*cos(30)</code></td></tr>
+    <tr><td><code>asin acos atan</code></td><td>Inverse trig, degrees out</td><td><code>atan(0.75)</code></td></tr>
+    <tr><td><code>atan2(y, x)</code></td><td>Angle of a vector, full 0–360° aware. Note: <b>y first</b>.</td><td><code>atan2(-200, 150)</code></td></tr>
+    <tr><td><code>hypot(x, y)</code></td><td>Length of a vector, √(x² + y²)</td><td><code>hypot(480, 360)</code></td></tr>
+    <tr><td><code>abs log ln exp min max</code></td><td>Absolute value, log base 10, natural log, eˣ, smallest, largest</td><td><code>abs(-3)</code></td></tr>
+    <tr><td><code>G</code></td><td>Gravitational constant, 6.67 × 10⁻¹¹</td><td><code>G*4.5e15/1500^2</code></td></tr>
+    <tr><td><code>pi</code> or <b>π</b></td><td>3.14159…</td><td><code>2*pi*2000</code></td></tr>
+    <tr><td><code>ans</code> / <b>ANS</b></td><td>Last stored result</td><td><code>ans*1200</code></td></tr>
+  </table>
+  <div class="ca note"><div class="t">NOTE</div><div class="b"><p><code>-2^2</code> is <code>−4</code>: the power applies before the minus sign, as in standard maths. Write <code>(-2)^2</code> for <code>+4</code>.</p></div></div>
+  <div class="foot"><span>GW-POH-001 · REV C</span><span>CALCULATOR</span><span>PAGE 5-1</span></div>
+</section>
+
+<!-- ================= 6 FLIGHT ================= -->
+<section class="sheet" id="sec-6">
+  <div class="sec-no">SECTION 6.0</div>
+  <h2>Flight &amp; telemetry</h2>
+  <p>After launch the simulator flies your numbers in small steps of a hundredth of a second, applying every force exactly. What you watch is the honest result of your calculation.</p>
+
+  <h3><span class="n">6.1</span>Playback controls</h3>
+  <table>
+    <tr><th>Control</th><th>Function</th></tr>
+    <tr><td><b>❚❚ / ▶</b> or <kbd>Space</kbd></td><td>Pause or resume playback.</td></tr>
+    <tr><td><b>1× 4× 16× 64×</b></td><td>Playback speed. Long missions are easier to watch at 16× or 64×. Speed does not change the result.</td></tr>
+    <tr><td><b>Skip to result</b></td><td>Finishes the flight instantly (or jumps to the next checkpoint).</td></tr>
+    <tr><td><b>Abort</b></td><td>Ends the flight and returns to the sector map.</td></tr>
+    <tr><td><b>+ / −</b></td><td>Zoom the viewport.</td></tr>
+  </table>
+
+  <h3><span class="n">6.2</span>Live telemetry panel</h3>
+  <div class="two">
+    <div>
+      <ul>
+        <li><b>Downrange</b>: distance travelled along the current corridor (on the orbit mission, <b>Arc flown</b>).</li>
+        <li><b>Drift from centreline</b>: how far off the needed path you are. It turns amber as you near a wall. (Orbit: <b>Radius error</b>.)</li>
+        <li><b>Speed</b> and <b>Heading</b>: the ship's current velocity.</li>
+        <li><b>Net force</b>: the sum of every force on the ship right now.</li>
+        <li><b>Mass</b>: changes if you drop cargo.</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li><b>Forces on ship</b>: each pull (<span class="c-amber">amber</span>) and the thrust (<span class="c-violet">violet</span>), with size and direction.</li>
+        <li><b>Distance to corridor edge</b>: the margin left before the hull breaches.</li>
+        <li><b>Fuel</b>: impulse remaining (§7.2).</li>
+        <li><b>Status line</b>: the physics in plain words, such as “Forces balanced: the ship keeps its velocity”.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="ca note"><div class="t">NOTE</div><div class="b"><p>Watch <b>Net force</b>. If it reads near zero, the ship coasts in a straight line at constant speed (Newton's first law). If it does not, the ship is accelerating, and the status line tells you how hard.</p></div></div>
+  <div class="foot"><span>GW-POH-001 · REV C</span><span>FLIGHT &amp; TELEMETRY</span><span>PAGE 6-1</span></div>
+</section>
+
+<!-- ================= 7 CHECKPOINTS & FUEL ================= -->
+<section class="sheet" id="sec-7">
+  <div class="sec-no">SECTION 7.0</div>
+  <h2>Checkpoints &amp; fuel</h2>
+
+  <h3><span class="n">7.1</span>Multi-leg missions and checkpoints</h3>
+  <p>Later missions have several <b>legs</b>, each ending in a gate. When the ship crosses a gate that has a checkpoint, the flight <b>pauses</b> and the flight computer reopens with a <span class="c-cyan">CHECKPOINT REACHED</span> banner.</p>
+  <ul>
+    <li>The <b>Known values</b> now include <b>live telemetry</b>: the ship's actual speed, heading, mass and mission clock at that moment.</li>
+    <li>Plan the next leg from those live values, not from the briefing. The ship rarely arrives at exactly the speed you planned.</li>
+    <li>Press <b>RESUME FLIGHT</b> to continue.</li>
+  </ul>
+  <div class="ca caution"><div class="t">CAUTION</div><div class="b"><p><b>Errors carry forward.</b> A small mistake on leg 1 leaves you a little off speed at the checkpoint. Using the live numbers is how you make up for it.</p></div></div>
+
+  <h3><span class="n">7.2</span>Fuel</h3>
+  <p>Fuel is measured as <b>impulse</b>: thrust multiplied by burn time, in newton-seconds (N·s). A 200 N burn for 30 s uses 6,000 N·s. Each mission states a fuel <b>budget</b> and a <b>par</b>.</p>
+  <table>
+    <tr><th>Term</th><th>Meaning</th></tr>
+    <tr><td>Budget</td><td>The tank. Run it dry and the thrusters cut out mid-flight; the ship then coasts at the mercy of every pull.</td></tr>
+    <tr><td>Par</td><td>The fuel a well-planned flight uses. Going over par costs a star (§9).</td></tr>
+    <tr><td>Shared fuel</td><td>On the final mission one tank covers all three legs. Wasting fuel early leaves you short later.</td></tr>
+  </table>
+  <div class="ca note"><div class="t">NOTE</div><div class="b"><p>Some missions use no fuel at all (coasting, a timed clamp, a cargo release). Their fuel gauge is hidden.</p></div></div>
+  <div class="foot"><span>GW-POH-001 · REV C</span><span>CHECKPOINTS &amp; FUEL</span><span>PAGE 7-1</span></div>
+</section>
+
+<!-- ================= 8 DEBRIEF ================= -->
+<section class="sheet" id="sec-8">
+  <div class="sec-no">SECTION 8.0</div>
+  <h2>Debrief &amp; troubleshooting</h2>
+  <p>When a flight fails, the <b>Crash debrief</b> opens. It shows:</p>
+  <ul>
+    <li>The failure, when and where it happened.</li>
+    <li>A replay of <span class="c-red">your path</span> against the <span class="c-green">needed path</span>.</li>
+    <li><b>Your entries</b>: every field marked <span class="c-green">Correct</span> or with how far off it was (too high, too low, or by how many times).</li>
+    <li>A <b>Hint</b> aimed at your specific mistake, for example spotting that you entered an acceleration where a force was asked for.</li>
+    <li>The <b>Worked solution</b>, hidden until you ask for it. Viewing it caps the mission at 2 stars.</li>
+  </ul>
+  <p><b>Retry (keep my values)</b> reopens the flight computer at the stage that failed with your numbers still in place, so you only fix what was wrong. <b>Retry from scratch</b> clears everything and starts at stage 1.</p>
+
+  <h3><span class="n">8.1</span>Failure messages</h3>
+  <table>
+    <tr><th>Message</th><th>Usual cause</th><th>First thing to check</th></tr>
+    <tr><td>Hull breach: drifted out of the corridor</td><td>A sideways force was not cancelled</td><td>Thrust size, thrust heading (pointing away from the pull?), burn long enough?</td></tr>
+    <tr><td>Reached the gate … too fast / early</td><td>Too much thrust or impulse</td><td>Did you multiply where you should divide? A unit mix-up?</td></tr>
+    <tr><td>Reached the gate … too slow / closed</td><td>Too little thrust or impulse</td><td>Did you use the full speed change, not just the target speed?</td></tr>
+    <tr><td>Mission clock expired</td><td>Ship barely moved</td><td>A tiny number in a thrust field, such as an acceleration typed as a force</td></tr>
+    <tr><td>Hit the dock at … m/s</td><td>Braking too weak or too short</td><td>Burn duration lasts until the speed reaches zero?</td></tr>
+    <tr><td>Came to a stop … short / drifting away</td><td>Braking too hard</td><td>Factor of 2 in <code>v² = v₀² + 2ad</code>?</td></tr>
+    <tr><td>Clamp fired … out of reach</td><td>Wrong timing</td><td>Did you use the <b>relative</b> speed?</td></tr>
+    <tr><td>Dropped below / climbed out of the safe band</td><td>Orbit too slow / too fast</td><td>Orbital speed formula, and burn only for the speed you still need</td></tr>
+    <tr><td>Fuel exhausted</td><td>Burns too long or too strong</td><td>Compare your impulse with the budget</td></tr>
+    <tr><td>Impact with an asteroid</td><td>Fell straight in</td><td>Thrust heading pointing toward the body</td></tr>
+  </table>
+
+  <h3><span class="n">8.2</span>When every entry says “Correct” but you still crashed</h3>
+  <p>Answers within a few percent are marked correct, but a tight timed gate can still be missed by a rounding error that builds up over a long leg. Keep at least one more decimal place and fly again. Also re-read the mission assumptions: the burn may need to start, stop or point differently from what you pictured.</p>
+  <div class="foot"><span>GW-POH-001 · REV C</span><span>DEBRIEF</span><span>PAGE 8-1</span></div>
+</section>
+
+<!-- ================= 9 RATINGS ================= -->
+<section class="sheet" id="sec-9">
+  <div class="sec-no">SECTION 9.0</div>
+  <h2>Ratings &amp; pilot rank</h2>
+  <p>Every cleared mission earns up to three stars. You start with three and lose one for each of these, never dropping below one:</p>
+  <table>
+    <tr><th>Star lost for</th><th>Detail</th></tr>
+    <tr><td>Attempts</td><td>More than two launches to clear the mission.</td></tr>
+    <tr><td>Worked solution</td><td>Viewing the worked solution in a debrief.</td></tr>
+    <tr><td>Fuel</td><td>Using more impulse than the mission's par.</td></tr>
+  </table>
+  <p>Your best rating for each mission is kept. Replay any cleared mission to improve it. The success screen also reports <b>accuracy</b> (how close to the centreline you stayed), flight time and fuel used.</p>
+
+  <h3><span class="n">9.1</span>Pilot rank</h3>
+  <table>
+    <tr><th>Total stars</th><th>Rank</th></tr>
+    <tr><td class="mono">0–2</td><td>Recruit</td></tr>
+    <tr><td class="mono">3–8</td><td>Cadet I</td></tr>
+    <tr><td class="mono">9–14</td><td>Cadet II</td></tr>
+    <tr><td class="mono">15–20</td><td>Lieutenant</td></tr>
+    <tr><td class="mono">21–26</td><td>Captain</td></tr>
+    <tr><td class="mono">27–30</td><td>Commander</td></tr>
+  </table>
+  <div class="foot"><span>GW-POH-001 · REV C</span><span>RATINGS</span><span>PAGE 9-1</span></div>
+</section>
+
+<!-- ================= 10 MISSION NOTES ================= -->
+<section class="sheet" id="sec-10">
+  <div class="sec-no">SECTION 10</div>
+  <h2>Belt Alpha mission notes</h2>
+  <p>Briefing notes for each mission: the idea it teaches, how it is laid out, and a pilot's tip. No answers.</p>
+
+  <div class="mission"><div class="hd"><h4>01 · Launch Window</h4><span>FORCE &amp; ACCELERATION · F = m·a</span></div><div class="bd">
+    <div><b>Layout</b>One corridor, timed gate. One 16-second burn from rest, then coast.</div>
+    <div><b>You enter</b>The acceleration needed, then the engine thrust.</div>
+    <div class="full"><b>Pilot's tip</b>Acceleration is the change in speed per second. Thrust is the force that produces it on <i>this</i> ship's mass.</div></div></div>
+
+  <div class="mission"><div class="hd"><h4>02 · Docking Burn</h4><span>STOPPING DISTANCE · v² = v₀² + 2ad</span></div><div class="bd">
+    <div><b>Layout</b>Fly in toward a dock and brake to 3 m/s or less within 40 m of it.</div>
+    <div><b>You enter</b>Deceleration, braking force (fired backward), burn time.</div>
+    <div class="full"><b>Pilot's tip</b>You are slowing down the whole way, so <code>d / v</code> gives the wrong time. Brake until the speed reaches zero.</div></div></div>
+
+  <div class="mission"><div class="hd"><h4>03 · Short Burst</h4><span>IMPULSE · J = F·Δt = m·Δv</span></div><div class="bd">
+    <div><b>Layout</b>One fixed 4-second burst, then coast to a timed gate.</div>
+    <div><b>You enter</b>Speed change, impulse, burst thrust.</div>
+    <div class="full"><b>Pilot's tip</b>You are already moving. Impulse buys you the <i>change</i> in momentum, not all of it.</div></div></div>
+
+  <div class="mission"><div class="hd"><h4>04 · Crosscurrent</h4><span>VECTORS · Fx = F·cos θ</span></div><div class="bd">
+    <div><b>Layout</b>A diagonal corridor. Thrust is entered as x and y parts.</div>
+    <div><b>You enter</b>Heading, then the x and y components of thrust.</div>
+    <div class="full"><b>Pilot's tip</b>Sketch the triangle formed by the gate offsets. Cosine goes with x, sine with y.</div></div></div>
+
+  <div class="mission"><div class="hd"><h4>05 · Closing Gap</h4><span>RELATIVE MOTION · v_rel = v₁ − v₂</span></div><div class="bd">
+    <div><b>Layout</b>No burns. Fire a docking clamp as you draw level with a drifting drone.</div>
+    <div><b>You enter</b>Closing speed, then the clamp time.</div>
+    <div class="full"><b>Pilot's tip</b>The drone keeps moving while you chase it. Think from the drone's point of view.</div></div></div>
+
+  <div class="mission"><div class="hd"><h4>06 · Pull of KR-6</h4><span>GRAVITATION · F = G·M·m / r²</span></div><div class="bd">
+    <div><b>Layout</b>A heavy asteroid below the corridor drags you sideways.</div>
+    <div><b>You enter</b>The pull on the ship, then thrust size, heading and duration to cancel it.</div>
+    <div class="full"><b>Pilot's tip</b>G·M/r² on its own is an <i>acceleration</i>. A force in newtons needs the ship's mass too. Watch the powers of ten.</div></div></div>
+
+  <div class="mission"><div class="hd"><h4>07 · Crossfire</h4><span>VECTOR SUM · ΣF = F₁ + F₂</span></div><div class="bd">
+    <div><b>Layout</b>Two asteroids pulling in different directions; one thrust cancels both.</div>
+    <div><b>You enter</b>Each pull, the net x and y parts, then thrust size and heading.</div>
+    <div class="full"><b>Pilot's tip</b>Never add force <i>sizes</i> pointing different ways. Split each pull into x and y, add those, then rebuild one vector with <code>hypot</code> and <code>atan2</code>.</div></div></div>
+
+  <div class="mission"><div class="hd"><h4>08 · Cargo Drop</h4><span>MOMENTUM · M·v = m₁v₁ + m₂v₂</span><span class="tag">2 LEGS · CHECKPOINT</span></div><div class="bd">
+    <div><b>Layout</b>Coast to a drop zone, then eject a cargo pod backward. The recoil speeds you up for a timed gate.</div>
+    <div><b>You enter</b>At the checkpoint: the speed you need, then the pod's ejection speed.</div>
+    <div class="full"><b>Pilot's tip</b>Total momentum before the release equals total after. The pod is much lighter than the ship, and the ship's mass is smaller afterward.</div></div></div>
+
+  <div class="mission"><div class="hd"><h4>09 · Holding Pattern</h4><span>CIRCULAR ORBIT · v = √(G·M / r)</span></div><div class="bd">
+    <div><b>Layout</b>Real inverse-square gravity. Speed up into a circular orbit and coast half way round to a pickup gate without leaving the safe band.</div>
+    <div><b>You enter</b>Orbital speed, the speed change, and how long to burn at a fixed thrust.</div>
+    <div class="full"><b>Pilot's tip</b>Too slow and you fall inward; too fast and you climb out. You already have some speed, so only burn for the difference.</div></div></div>
+
+  <div class="mission"><div class="hd"><h4>10 · The Gauntlet</h4><span>EVERYTHING</span><span class="tag">3 LEGS · 2 CHECKPOINTS · SHARED FUEL</span></div><div class="bd">
+    <div><b>Layout</b>Leg 1: cancel one asteroid's pull. Leg 2: a timed gate reached with a short burst. Leg 3: cancel the crossfire of two more asteroids.</div>
+    <div><b>You enter</b>A fresh set of values at each checkpoint.</div>
+    <div class="full"><b>Pilot's tip</b>Use the live speed at each checkpoint. Aim for the middle of a timed window, not its edge. Watch the shared fuel.</div></div></div>
+  <div class="foot"><span>GW-POH-001 · REV C</span><span>MISSION NOTES</span><span>PAGE 10-1</span></div>
+</section>
+
+<!-- ================= 11 PHYSICS ================= -->
+<section class="sheet" id="sec-11">
+  <div class="sec-no">SECTION 11</div>
+  <h2>Physics reference</h2>
+  <p>Every formula in the cockpit's formula reference, with the mission that unlocks it.</p>
+  <div class="formula"><span class="f">F = m·a</span><span>Newton's second law: net force produces acceleration</span><span class="lv">MISSION 01</span></div>
+  <div class="formula"><span class="f">v = v₀ + a·t</span><span>Velocity after accelerating for time t</span><span class="lv">MISSION 01</span></div>
+  <div class="formula"><span class="f">d = v₀·t + ½·a·t²</span><span>Distance covered while accelerating</span><span class="lv">MISSION 01</span></div>
+  <div class="formula"><span class="f">d = v·t</span><span>Distance at constant speed</span><span class="lv">MISSION 01</span></div>
+  <div class="formula"><span class="f">v² = v₀² + 2·a·d</span><span>Speed change over a distance (no time needed)</span><span class="lv">MISSION 02</span></div>
+  <div class="formula"><span class="f">J = F·Δt = m·Δv</span><span>Impulse changes momentum</span><span class="lv">MISSION 03</span></div>
+  <div class="formula"><span class="f">p = m·v</span><span>Momentum</span><span class="lv">MISSION 03</span></div>
+  <div class="formula"><span class="f">Fx = F·cos θ,  Fy = F·sin θ</span><span>Splitting a vector into components</span><span class="lv">MISSION 04</span></div>
+  <div class="formula"><span class="f">|F| = √(Fx² + Fy²)</span><span>Rebuilding a vector's size; direction θ = atan2(Fy, Fx)</span><span class="lv">MISSION 04</span></div>
+  <div class="formula"><span class="f">v_rel = v₁ − v₂</span><span>Relative velocity of two craft moving the same way</span><span class="lv">MISSION 05</span></div>
+  <div class="formula"><span class="f">t = d / v_rel</span><span>Time to close a gap</span><span class="lv">MISSION 05</span></div>
+  <div class="formula"><span class="f">F = G·M·m / r²</span><span>Universal gravitation between two masses</span><span class="lv">MISSION 06</span></div>
+  <div class="formula"><span class="f">G = 6.67 × 10⁻¹¹</span><span>Gravitational constant, N·m²/kg²</span><span class="lv">MISSION 06</span></div>
+  <div class="formula"><span class="f">ΣF = F₁ + F₂</span><span>Net force: add x parts, add y parts</span><span class="lv">MISSION 07</span></div>
+  <div class="formula"><span class="f">M·v = m₁·v₁ + m₂·v₂</span><span>Conservation of momentum when a body splits</span><span class="lv">MISSION 08</span></div>
+  <div class="formula"><span class="f">v = √(G·M / r)</span><span>Speed for a circular orbit at radius r</span><span class="lv">MISSION 09</span></div>
+  <div class="formula"><span class="f">T = 2π·r / v</span><span>Orbital period</span><span class="lv">MISSION 09</span></div>
+
+  <h3><span class="n">11.1</span>Cancelling a force</h3>
+  <div class="two">
+    <div class="figure" style="margin-top:0">
+      <svg viewBox="0 0 360 230" role="img" aria-label="Force balance: gravity pulls down toward an asteroid; thrust of equal size points up; velocity unchanged to the right">
+        <defs><marker id="m1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#f5b63e"/></marker>
+        <marker id="m2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b794f6"/></marker>
+        <marker id="m3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#4fd1e8"/></marker></defs>
+        <circle cx="180" cy="235" r="52" fill="#3a4763"/>
+        <path d="M150 90l-20 -10 5 10 -5 10z" fill="#dfe8f5"/>
+        <path d="M152 90H250" stroke="#4fd1e8" stroke-width="3" marker-end="url(#m3)"/>
+        <path d="M140 100V160" stroke="#f5b63e" stroke-width="3" marker-end="url(#m1)"/>
+        <path d="M140 80V20" stroke="#b794f6" stroke-width="3" marker-end="url(#m2)"/>
+        <g font-family="JetBrains Mono, monospace" font-size="12"><text x="150" y="30" fill="#b794f6">thrust, 90°</text><text x="150" y="156" fill="#f5b63e">gravity, 270°</text><text x="258" y="94" fill="#4fd1e8">v</text><text x="20" y="222" fill="#9fb2cc">equal size, opposite way → ΣF = 0</text></g>
+      </svg>
+      <div class="cap"><b>FIG 11-1</b> Balanced forces</div>
+    </div>
+    <div>
+      <p>To fly straight past something that pulls on you, the thrust must be the <b>same size</b> as the pull and point the <b>opposite way</b> (add or subtract 180° from the pull's heading). The net force is then zero and the ship keeps its velocity.</p>
+      <p>When several bodies pull at once, first add their pulls as vectors (Mission 07), then cancel the total.</p>
+      <p>A pull keeps acting as long as you are near the body, so the burn must last as long as the pass: <code>t = d / v</code>.</p>
+    </div>
+  </div>
+
+  <h3><span class="n">11.2</span>Simulator approximations</h3>
+  <p>To keep each mission about one idea, some missions treat a pull as <b>uniform</b>: constant in size and direction for the whole pass, using the listed distance and bearing. The orbit mission uses true inverse-square gravity. Each briefing states which applies.</p>
+  <div class="foot"><span>GW-POH-001 · REV C</span><span>PHYSICS REFERENCE</span><span>PAGE 11-1</span></div>
+</section>
+
+<!-- ================= 12 GLOSSARY ================= -->
+<section class="sheet" id="sec-12">
+  <div class="sec-no">SECTION 12</div>
+  <h2>Glossary</h2>
+  <table>
+    <tr><td><b>Burn</b></td><td>A period of engine thrust: a force, a heading and a duration.</td></tr>
+    <tr><td><b>Check field</b></td><td>An input the debrief grades but the ship does not fly (§4.1).</td></tr>
+    <tr><td><b>Checkpoint</b></td><td>A gate where the flight pauses so you can plan the next leg from live telemetry (§7.1).</td></tr>
+    <tr><td><b>Corridor</b></td><td>The safe lane through the asteroid field (§3.1).</td></tr>
+    <tr><td><b>Drive field</b></td><td>An input that becomes the actual burn (§4.1).</td></tr>
+    <tr><td><b>Drift</b></td><td>Sideways distance from the corridor's centreline.</td></tr>
+    <tr><td><b>Gate</b></td><td>The end of a leg. May be timed, speed-limited, or a dock.</td></tr>
+    <tr><td><b>Heading</b></td><td>A direction in degrees from screen-right, counter-clockwise (§3).</td></tr>
+    <tr><td><b>Impulse</b></td><td>Force × time, in N·s. Changes momentum; also how fuel is measured.</td></tr>
+    <tr><td><b>Leg</b></td><td>One corridor of a multi-part mission.</td></tr>
+    <tr><td><b>Net force</b></td><td>The vector sum of every force on the ship.</td></tr>
+    <tr><td><b>Par</b></td><td>The fuel a well-planned flight uses (§7.2).</td></tr>
+    <tr><td><b>Prograde</b></td><td>In the direction of travel. Burning prograde speeds you up.</td></tr>
+    <tr><td><b>Retro-burn</b></td><td>Thrust against the direction of travel, to slow down.</td></tr>
+    <tr><td><b>Safe band</b></td><td>On the orbit mission, the ring of radii the ship must stay within.</td></tr>
+    <tr><td><b>T+</b></td><td>Mission clock: seconds since launch (or since the last checkpoint).</td></tr>
+  </table>
+  <div class="ca note"><div class="t">END OF HANDBOOK</div><div class="b"><p>Clear skies, cadet. <a href="index.html">Return to the cockpit ›</a></p></div></div>
+  <div class="foot"><span>GW-POH-001 · REV C</span><span>GLOSSARY</span><span>PAGE 12-1</span></div>
+</section>
+
+</main>
+</div>
+
+<script>
+// Highlight the current section in the contents list.
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map = {}; links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+  if (!('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if (e.isIntersecting) { links.forEach(function(a){ a.classList.remove('on'); }); var a = map[e.target.id]; if (a) a.classList.add('on'); } });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  document.querySelectorAll('main > section').forEach(function(s){ io.observe(s); });
+})();
+</script>
+</body>
+</html>

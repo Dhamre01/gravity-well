@@ -33,7 +33,7 @@
     if (name !== 'flight') { App.playing = false; cancelAnimationFrame(App.raf); }
   }
   function topbar(extra) {
-    $('#topright').innerHTML = '<span>Pilot rank: <strong style="color:var(--text)">' + rank() + '</strong></span><span class="stars">' + totalStars() + ' / ' + (LEVELS.length * 3) + ' stars</span>' + (extra || '');
+    $('#topright').innerHTML = '<span>Pilot rank: <strong style="color:var(--text)">' + rank() + '</strong></span><span class="stars">' + totalStars() + ' / ' + (LEVELS.length * 3) + ' stars</span>' + (extra || '') + '<a class="manual-link" href="manual.html" target="_blank" rel="noopener" title="Pilot\'s operating handbook (opens in a new tab)"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Manual</span></a>';
   }
   $('#brand').addEventListener('click', showMap);
   $('#brand').addEventListener('keydown', e => { if (e.key === 'Enter') showMap(); });
@@ -51,7 +51,7 @@
         + (locked ? '' : '<button class="' + (next ? 'btn-primary' : '') + '" data-level="' + l.num + '">' + (done ? 'Replay' : 'Start mission') + '</button>') + '</div></div>';
     }
     $('#screen-map').innerHTML = '<div class="map-head"><div><div class="eyebrow">Sector map</div><h1>Belt Alpha</h1></div>'
-      + '<p class="muted" style="max-width:560px">Each level adds one new force or idea. Clear a level to unlock the next. Stars reward accuracy, few attempts and fuel saved. Later levels pause at checkpoints so you can plan the next leg from live telemetry.</p></div>'
+      + '<p class="muted" style="max-width:560px">Each level adds one new force or idea. Clear a level to unlock the next. Stars reward accuracy, few attempts and fuel saved. Later levels pause at checkpoints so you can plan the next leg from live telemetry. New pilot? Read the <a href="manual.html" target="_blank" rel="noopener">Pilot\'s Operating Handbook</a> first.</p></div>'
       + '<div class="levels">' + cards + '</div>'
       + '<div class="row" style="margin-top:20px;gap:18px"><span class="muted" style="white-space:nowrap">Belt Alpha progress</span><div class="progressbar"><div style="width:' + (cleared / LEVELS.length * 100) + '%"></div></div><span class="mono">' + cleared + ' / ' + LEVELS.length + ' cleared</span>'
       + '<button id="reset" style="min-height:36px;font-size:12px;padding:0 10px">Reset progress</button></div>';
@@ -101,6 +101,7 @@
       + '<div class="panel fc"><div><div class="eyebrow">Flight computer</div><div class="muted" style="font-size:14px;margin-top:4px">' + esc(st.title) + '. The ship flies exactly what you enter — no autopilot.</div></div>'
       + (st.inputs.length ? fields : '<div class="callout cyan">' + esc(st.note || 'No inputs on this stage.') + '</div>')
       + '<div class="note">' + esc(level.assumptions) + '</div>'
+      + '<div class="note">Headings, the calculator and check vs. drive fields are explained in the <a href="manual.html#sec-4" target="_blank" rel="noopener">pilot\'s manual §4</a>. <a href="manual.html#sec-10" target="_blank" rel="noopener">Mission notes</a> · <a href="manual.html#sec-3" target="_blank" rel="noopener">heading compass</a></div>'
       + '<div class="row between" style="font-size:13px;color:var(--muted)"><span>Fields complete</span><span class="mono" id="fc-count">0 / ' + st.inputs.length + '</span></div>'
       + '<button class="btn-primary btn-lg" id="launch">' + (st.checkpoint ? 'RESUME FLIGHT' : st.inputs.length ? 'LAUNCH' : 'FLY') + '</button></div></div>';
     $('#p-back').addEventListener('click', () => st.checkpoint ? showMap() : showBrief(level));
@@ -248,7 +249,7 @@
     $('#screen-debrief').innerHTML = '<div class="debrief"><div class="stack" style="gap:14px"><div><div class="eyebrow red">Crash debrief' + (level.stages.length > 1 ? ' · stage ' + (k + 1) : '') + '</div><h1 style="font-size:30px;margin-top:6px">' + esc(sim.fail.msg) + '</h1><div class="muted" style="margin-top:6px">At T+' + F.f1(sim.t) + ' s' + (sim.fail.s != null ? ' · ' + F.f0(sim.fail.s) + ' m downrange · ' + F.f0(Math.abs(sim.fail.d)) + ' m off the centreline' : '') + '</div></div>'
       + '<div class="viewport" style="flex:1"><canvas id="cv-debrief"></canvas><div class="overlay"><span class="c-green">green dashes = needed path</span><span class="c-red">red = your path</span></div></div>'
       + '<div class="panel"><div class="sectionlabel" style="margin-bottom:10px">Your entries</div>' + table + '</div></div>'
-      + '<div class="stack" style="gap:14px"><div class="callout amber"><div class="eyebrow amber" style="margin-bottom:6px">Hint</div><div style="font-size:15px">' + esc(hint) + '</div></div>'
+      + '<div class="stack" style="gap:14px"><div class="callout amber"><div class="eyebrow amber" style="margin-bottom:6px">Hint</div><div style="font-size:15px">' + esc(hint) + '</div><div style="font-size:13px;margin-top:8px">More help: <a href="manual.html#sec-8" target="_blank" rel="noopener" style="color:#f5b63e">manual §8, failure messages</a></div></div>'
       + '<div class="panel stack" style="gap:10px;flex:1"><div class="row between"><span class="eyebrow">Worked solution</span><span class="muted" style="font-size:12px">' + (App.solutionViewed ? 'Viewed · this level is capped at 2 stars' : 'Viewing caps this level at 2 stars') + '</span></div><div id="sol">' + (App.solutionViewed ? solutionHtml(st, simAt) : '<button id="show-sol">Show worked solution</button>') + '</div></div>'
       + '<div class="row"><button class="btn-primary btn-lg" id="retry" style="flex:1">Retry (keep my values)</button><button class="btn-lg" id="retry-fresh" style="flex:1">Retry from scratch</button></div><button id="d-map">Back to sector map</button></div></div>';
     const sb = $('#show-sol'); if (sb) sb.addEventListener('click', () => { App.solutionViewed = true; $('#sol').innerHTML = solutionHtml(st, simAt); $('#screen-debrief .panel .muted').textContent = 'Viewed · this level is capped at 2 stars'; });
