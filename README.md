@@ -10,7 +10,7 @@ No install, no build step, no dependencies. Open `index.html` in a browser (or s
 
 ## How a level plays
 
-1. **Briefing** – the situation, the known values, and what you will have to enter.
+1. **Briefing** – the situation, the known values, what you will have to enter, and a short **Flight School** lesson on the new idea (with a worked example using different numbers).
 2. **Flight computer** – a formula reference (new formulas unlock as you progress), a scientific calculator, and the input fields. Click a known value to drop it into the calculator; *Use → field* sends the result to the field you were editing.
 3. **Launch** – the simulator flies exactly what you entered, with live telemetry and force arrows. Playback runs at 1×–64×.
 4. **Checkpoints** (later levels) – the sim pauses at a gate, shows live telemetry, and asks for the next leg's values. Errors carry forward.
@@ -56,6 +56,7 @@ manual.html       user guide (pilot's operating handbook)
 css/style.css     layout and theme
 js/physics.js     simulator (browser + Node)
 js/levels.js      level data, grading, hints, solutions
+js/tutorials.js   Flight School lessons shown on each briefing
 js/calc.js        calculator expression evaluator
 js/render.js      canvas renderer: starfield, shaded asteroids, ship, HUD
 js/game.js        screens and game flow

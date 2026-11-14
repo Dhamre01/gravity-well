@@ -69,15 +69,29 @@
     const enters = level.stages.map((s, i) => (level.stages.length > 1 ? '<strong>' + esc(s.title) + ':</strong> ' : '') + (s.inputs.length ? s.inputs.map(x => esc(x.label)).join(' · ') : 'no inputs (coast)')).map(x => '<div>' + x + '</div>').join('');
     $('#screen-brief').innerHTML = '<div class="row between" style="margin-bottom:16px"><button id="b-back">‹ Sector map</button><span class="mono muted" style="font-size:13px">BELT ALPHA · LEVEL ' + String(level.num).padStart(2, '0') + ' · MISSION BRIEFING</span><span></span></div>'
       + '<div class="brief"><div class="viewport"><canvas id="cv-brief"></canvas><div class="overlay"><span>Top-down view · ' + esc(level.legs.length > 1 ? level.legs.length + ' legs' : 'single leg') + '</span></div></div>'
-      + '<div class="stack" style="gap:20px"><div><div class="eyebrow">New concept · ' + esc(level.concept) + '</div><h1 style="margin-top:8px">' + esc(level.title) + '</h1></div>'
+      + '<div class="stack" style="gap:20px"><div><div class="eyebrow">New concept · ' + esc(level.concept) + '</div><h1 style="margin-top:8px">' + esc(level.title) + '</h1>' + ((window.GWTutorials || {})[level.num] ? '<a href="#" id="to-tut" class="chip" style="display:inline-block;margin-top:10px;text-decoration:none;color:var(--amber);border-color:#7a5a1e">📘 New idea? Read the Flight School lesson below ↓</a>' : '') + '</div>'
       + '<p style="font-size:16px;line-height:1.6;color:#c5d2e4">' + esc(level.intro) + '</p>'
       + '<div class="panel"><div class="sectionlabel" style="margin-bottom:10px">Known values</div><div class="known">' + known + '</div></div>'
       + '<div class="panel stack" style="gap:8px"><div class="sectionlabel">You will enter</div><div style="font-size:14px;line-height:1.6;color:#c5d2e4">' + enters + '</div><div class="note">' + esc(level.assumptions) + '</div></div>'
-      + '<button class="btn-primary btn-lg" id="b-open">Open flight computer</button></div></div>';
+      + '<button class="btn-primary btn-lg" id="b-open">Open flight computer</button></div></div>' + tutorialHtml(level);
     $('#b-back').addEventListener('click', showMap);
     $('#b-open').addEventListener('click', () => showPlan(0, false));
+    const tt = $('#to-tut'); if (tt) tt.addEventListener('click', e => { e.preventDefault(); $('.tutorial').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+    const b2 = $('#b-open2'); if (b2) b2.addEventListener('click', () => showPlan(0, false));
     show('brief');
     requestAnimationFrame(() => App.renderer.draw($('#cv-brief'), { sim: App.sim, mode: 'plan', previewBurns: [] }));
+  }
+
+
+  function tutorialHtml(level) {
+    const t = (window.GWTutorials || {})[level.num]; if (!t) return '';
+    return '<section class="panel tutorial" aria-labelledby="tut-h"><div class="tut-head"><div><div class="eyebrow amber">Flight school · ' + esc(level.concept) + '</div><h2 id="tut-h" style="margin-top:6px">' + esc(t.title) + '</h2></div>'
+      + '<div class="tut-formulas">' + t.formulas.map(f => '<span>' + esc(f) + '</span>').join('') + '</div></div>'
+      + '<div class="tut-grid"><div class="tut-idea"><div class="sectionlabel">The idea</div>' + t.idea.map(p => '<p>' + esc(p) + '</p>').join('') + '</div>'
+      + '<div class="stack" style="gap:14px"><div class="tut-example"><div class="sectionlabel">Worked example <span class="muted" style="letter-spacing:0;text-transform:none;font-weight:400">· different numbers from your mission</span></div><p>' + esc(t.example.setup) + '</p>'
+      + t.example.steps.map((x, i) => '<div class="tut-step"><span>' + (i + 1) + '</span><code>' + esc(x) + '</code></div>').join('') + '</div>'
+      + '<div class="callout amber"><div class="eyebrow amber" style="margin-bottom:4px">Watch out</div>' + esc(t.watch) + '</div></div></div>'
+      + '<div class="tut-foot"><span class="muted">More in the <a href="manual.html#sec-11" target="_blank" rel="noopener">physics reference</a> and <a href="manual.html#sec-10" target="_blank" rel="noopener">mission notes</a>.</span><button class="btn-primary" id="b-open2">Open flight computer</button></div></section>';
   }
 
   // ================= PLAN / FLIGHT COMPUTER =================
